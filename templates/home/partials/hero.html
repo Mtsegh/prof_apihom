@@ -1,0 +1,55 @@
+<section class="relative overflow-hidden bg-navy">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24 lg:py-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+    <div class="lg:col-span-7 reveal">
+      {% if profile.title or profile.department %}
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold mb-5">
+          {{ profile.title|default:"Professor" }}{% if profile.department %} &middot; {{ profile.department }}{% endif %}
+        </p>
+      {% endif %}
+
+      <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1]">
+        {{ profile.full_name|default:"Prof. A. P. Ihom" }}
+      </h1>
+
+      {% if profile.university %}
+        <p class="mt-4 text-lg text-offwhite/70">{{ profile.university }}</p>
+      {% endif %}
+
+      {% if profile.short_bio %}
+        <p class="mt-8 text-base sm:text-lg text-offwhite/80 leading-relaxed max-w-xl">
+          {{ profile.short_bio|truncatewords:45 }}
+        </p>
+      {% endif %}
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="{% url 'about:about' %}" class="bg-gold text-navy-dark font-medium px-6 py-3 rounded-md hover-elevate">
+          Read Full Biography
+        </a>
+        <a href="{% url 'publications:publication_list' %}" class="border border-offwhite/30 text-white font-medium px-6 py-3 rounded-md hover:border-gold transition-colors">
+          View Publications
+        </a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 reveal">
+      <div class="aspect-[4/5] rounded-2xl overflow-hidden bg-navy-dark border border-offwhite/10">
+        {% if profile.portrait %}
+          <img
+            src="{{ profile.portrait.url }}"
+            alt="Portrait of {{ profile.full_name|default:'the professor' }}"
+            class="w-full h-full object-cover"
+            loading="lazy" width="600" height="750"
+          >
+        {% else %}
+          <div class="w-full h-full flex items-center justify-center text-offwhite/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>

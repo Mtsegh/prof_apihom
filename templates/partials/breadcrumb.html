@@ -1,0 +1,18 @@
+{# Usage: pass `breadcrumbs` from the view as a list of dicts: [{"label": "Books", "url": None}] #}
+{% if breadcrumbs %}
+<nav aria-label="Breadcrumb" class="mx-auto max-w-7xl px-6 lg:px-8 pt-6 text-sm text-ink/60">
+  <ol class="flex flex-wrap items-center gap-2">
+    <li><a href="{% url 'home:home' %}" class="hover:text-emerald">Home</a></li>
+    {% for crumb in breadcrumbs %}
+    <li aria-hidden="true">/</li>
+    <li>
+      {% if crumb.url %}
+      <a href="{{ crumb.url }}" class="hover:text-emerald">{{ crumb.label }}</a>
+      {% else %}
+      <span aria-current="page" class="text-navy font-medium">{{ crumb.label }}</span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</nav>
+{% endif %}

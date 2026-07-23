@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Research — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Research interests, ongoing and completed projects, collaborators, grants, and datasets from {{ profile.full_name|default:"Prof. A. P. Ihom" }}.{% endblock %}
+
+{% block content %}
+{% url 'contact:contact' as contact_url %}
+
+<section class="mx-auto max-w-7xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with eyebrow="Research" title="Research" description="Ongoing and completed work across materials, production, and industrial engineering." %}
+</section>
+
+{# ---------- Research Interests ---------- #}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 pb-20">
+  {% include 'partials/section_heading.html' with title="Research Interests" %}
+  {% if research_interests %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for interest in research_interests %}
+        {% include 'partials/research_interest_card.html' with interest=interest %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="Research interests coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Current Projects ---------- #}
+<section class="bg-white py-20">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="In Progress" title="Current Projects" %}
+    {% if current_projects %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for project in current_projects %}
+          {% include 'research/partials/research_card.html' with project=project %}
+        {% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="No active projects listed" message="Ongoing research will appear here." %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Past Projects ---------- #}
+<section class="py-20">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Completed" title="Past Projects" %}
+    {% if past_projects %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-stagger">
+        {% for project in past_projects %}
+          {% include 'research/partials/research_card.html' with project=project %}
+        {% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="No completed projects listed yet" %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Collaborators ---------- #}
+<section class="bg-navy-dark py-20">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Network" title="Collaborators" %}
+    {% if collaborators %}
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 reveal-stagger">
+        {% for collaborator in collaborators %}
+          <div class="text-center reveal">
+            <div class="w-16 h-16 mx-auto rounded-full overflow-hidden bg-offwhite/10 border border-offwhite/10">
+              {% if collaborator.photo %}
+                <img src="{{ collaborator.photo.url }}" alt="{{ collaborator.name }}" class="w-full h-full object-cover" loading="lazy">
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center text-offwhite/30 text-lg font-heading">
+                  {{ collaborator.name|first }}
+                </div>
+              {% endif %}
+            </div>
+            <p class="mt-3 text-sm font-medium text-white">
+              {% if collaborator.url %}
+                <a href="{{ collaborator.url }}" target="_blank" rel="noopener" class="link-underline">{{ collaborator.name }}</a>
+              {% else %}
+                {{ collaborator.name }}
+              {% endif %}
+            </p>
+            {% if collaborator.affiliation %}
+              <p class="text-xs text-offwhite/50">{{ collaborator.affiliation }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-offwhite/50 text-center">Collaborator details coming soon.</p>
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Grants ---------- #}
+<section class="py-20">
+  <div class="mx-auto max-w-4xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Funding" title="Research Grants" %}
+    {% if grants %}
+      <div class="divide-y divide-navy/10 border-t border-b border-navy/10">
+        {% for grant in grants %}
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 reveal reveal-stagger">
+            <div>
+              <p class="font-medium text-navy">{{ grant.title }}</p>
+              <p class="text-sm text-ink/50">{{ grant.funding_body }}</p>
+            </div>
+            <div class="flex items-center gap-4 text-sm">
+              {% if grant.amount %}<span class="text-navy font-medium">{{ grant.amount }}</span>{% endif %}
+              <span class="text-ink/40">{{ grant.year }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="No grants listed yet" %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Datasets & Downloads ---------- #}
+<section class="bg-white py-20">
+  <div class="mx-auto max-w-5xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Open Data" title="Datasets & Downloads" %}
+    {% if datasets %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 reveal-stagger">
+        {% for dataset in datasets %}
+          <div class="border border-navy/10 rounded-xl p-6 hover-elevate reveal flex flex-col reveal-stagger">
+            <p class="font-heading text-lg text-navy">{{ dataset.title }}</p>
+            {% if dataset.description %}
+              <p class="mt-2 text-sm text-ink/70 leading-relaxed">{{ dataset.description|truncatewords:24 }}</p>
+            {% endif %}
+            <div class="mt-4 pt-4 border-t border-navy/10 mt-auto">
+              {% if dataset.file %}
+                <a href="{{ dataset.file.url }}" class="text-sm font-medium text-emerald link-underline">
+                  Download ({{ dataset.file.size|filesizeformat }})
+                </a>
+              {% elif dataset.external_url %}
+                <a href="{{ dataset.external_url }}" target="_blank" rel="noopener" class="text-sm font-medium text-emerald link-underline">
+                  View Dataset
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="No datasets published yet" %}
+    {% endif %}
+  </div>
+</section>
+
+<div class="py-24">
+  {% include 'partials/cta.html' with heading="Interested in research collaboration?" subtext="Reach out to discuss joint projects, supervision, or funding opportunities." button_text="Get in Touch" button_url=contact_url %}
+</div>
+
+{% endblock %}

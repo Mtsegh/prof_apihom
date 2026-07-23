@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}{{ book.title }} — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}{{ book.description|default:""|truncatewords:30 }}{% endblock %}
+{% block og_image %}{% if book.cover %}<meta property="og:image" content="{{ book.cover.url }}">{% endif %}{% endblock %}
+
+{% block content %}
+{% include 'partials/breadcrumb.html' with breadcrumbs=breadcrumbs %}
+
+<section class="mx-auto max-w-6xl px-6 lg:px-8 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+  <div class="lg:col-span-5 reveal">
+    <div class="aspect-[3/4] rounded-xl overflow-hidden bg-navy/5 border border-navy/10">
+      {% if book.cover %}
+        <img src="{{ book.cover.url }}" alt="Cover of {{ book.title }}" class="w-full h-full object-cover" loading="lazy">
+      {% else %}
+        <div class="w-full h-full flex items-center justify-center text-navy/15">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="lg:col-span-7 reveal">
+    {% if book.category %}
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">{{ book.category }}</p>
+    {% endif %}
+
+    <h1 class="font-heading text-3xl sm:text-4xl text-navy leading-tight">{{ book.title }}</h1>
+    {% if book.subtitle %}
+      <p class="mt-2 text-lg text-ink/60">{{ book.subtitle }}</p>
+    {% endif %}
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      {% if book.price %}
+        <span class="font-heading text-2xl text-navy">{{ book.currency|currency_symbol }}{{ book.price }}</span>
+      {% endif %}
+      <span class="text-xs font-medium px-3 py-1 rounded-full
+        {% if book.availability == 'in_stock' %}bg-emerald/10 text-emerald
+        {% elif book.availability == 'preorder' %}bg-gold/10 text-gold
+        {% else %}bg-ink/10 text-ink/50{% endif %}">
+        {{ book.get_availability_display }}
+      </span>
+    </div>
+
+    {% if book.description %}
+      <p class="mt-8 text-base text-ink/70 leading-relaxed max-w-xl">{{ book.description }}</p>
+    {% endif %}
+
+    <dl class="mt-8 grid grid-cols-2 gap-4 max-w-md text-sm">
+      {% if book.isbn %}
+        <div><dt class="text-ink/40">ISBN</dt><dd class="text-navy font-medium">{{ book.isbn }}</dd></div>
+      {% endif %}
+      {% if book.publisher %}
+        <div><dt class="text-ink/40">Publisher</dt><dd class="text-navy font-medium">{{ book.publisher }}</dd></div>
+      {% endif %}
+    </dl>
+
+    <div class="mt-10 flex flex-wrap gap-4">
+      {% if book.purchase_url and book.availability != 'out_of_stock' %}
+        <a href="{{ book.purchase_url }}" target="_blank" rel="noopener" class="bg-gold text-navy-dark font-medium px-6 py-3 rounded-md hover-elevate">
+          Buy Now
+        </a>
+      {% endif %}
+      <a href="{% url 'books:book_list' %}" class="border border-navy/20 text-navy font-medium px-6 py-3 rounded-md hover:border-emerald transition-colors">
+        &larr; Back to Books
+      </a>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

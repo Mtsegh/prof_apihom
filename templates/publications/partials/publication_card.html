@@ -1,0 +1,41 @@
+{# Usage: {% include 'publications/partials/publication_card.html' with publication=publication %} #}
+<article class="border border-navy/10 rounded-xl bg-white p-6 hover-elevate reveal flex flex-col">
+
+  <div class="flex items-center gap-2 mb-3">
+    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald/10 text-emerald">
+      {{ publication.get_publication_type_display }}
+    </span>
+    <span class="text-xs text-ink/40">{{ publication.year }}</span>
+  </div>
+
+  <h3 class="font-heading text-lg text-navy leading-snug">{{ publication.title }}</h3>
+
+  {% if publication.authors %}
+    <p class="mt-2 text-sm text-ink/60">{{ publication.authors }}</p>
+  {% endif %}
+  {% if publication.journal %}
+    <p class="mt-1 text-sm italic text-ink/50">{{ publication.journal }}</p>
+  {% endif %}
+
+  {% if publication.abstract %}
+    <p class="mt-4 text-sm text-ink/70 leading-relaxed">{{ publication.abstract|truncatewords:28 }}</p>
+  {% endif %}
+
+  <div class="mt-5 pt-5 border-t border-navy/10 flex flex-wrap items-center gap-4 mt-auto">
+    {% if publication.doi %}
+      <a href="https://doi.org/{{ publication.doi }}" target="_blank" rel="noopener" class="text-xs font-medium text-emerald link-underline">
+        DOI: {{ publication.doi }}
+      </a>
+    {% endif %}
+
+    {% if publication.pdf_file %}
+      <a href="{{ publication.pdf_file.url }}" target="_blank" rel="noopener" class="ml-auto text-sm font-medium bg-gold text-navy-dark px-4 py-2 rounded-md hover-elevate">
+        Download PDF
+      </a>
+    {% elif publication.external_url %}
+      <a href="{{ publication.external_url }}" target="_blank" rel="noopener" class="ml-auto text-sm font-medium border border-navy/20 text-navy px-4 py-2 rounded-md hover:border-emerald transition-colors">
+        View Publication
+      </a>
+    {% endif %}
+  </div>
+</article>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Publications — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Peer-reviewed journal articles, conference proceedings, and research publications by {{ profile.full_name|default:"Prof. A. P. Ihom" }}.{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 py-20">
+
+  {% include 'partials/section_heading.html' with eyebrow="Research Output" title="Publications" description="Journal articles, conference proceedings, and peer-reviewed research spanning materials and metallurgical engineering." %}
+
+  {% include 'publications/partials/filter_bar.html' with query=query selected_type=selected_type selected_year_from=selected_year_from selected_year_to=selected_year_to min_year=min_year max_year=max_year publication_types=publication_types %}
+
+  {% if page_obj.object_list %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 reveal-stagger">
+      {% for publication in page_obj %}
+        {% include 'publications/partials/publication_card.html' with publication=publication %}
+      {% endfor %}
+    </div>
+
+    {% include 'partials/pagination.html' with page_obj=page_obj querystring=querystring %}
+
+  {% elif has_active_filters %}
+    <div class="text-center py-16 reveal">
+      <p class="font-heading text-xl text-navy">No publications match your filters</p>
+      <p class="mt-2 text-sm text-ink/50">Try a different search term or clear the filters below.</p>
+      <a href="{% url 'publications:publication_list' %}" class="inline-block mt-6 text-sm font-medium text-emerald link-underline">
+        Clear all filters
+      </a>
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="No publications listed yet" message="Published research will appear here as it's added." %}
+  {% endif %}
+
+</section>
+{% endblock %}

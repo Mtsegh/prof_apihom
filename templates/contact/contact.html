@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Contact — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Get in touch with {{ profile.full_name|default:"Prof. A. P. Ihom" }} — office location, email, and contact form.{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with eyebrow="Get in Touch" title="Contact" center=True %}
+
+  {% if messages %}
+    <div class="max-w-xl mx-auto mb-10">
+      {% for message in messages %}
+        <div class="bg-emerald/10 border border-emerald/20 text-emerald text-sm font-medium rounded-md px-4 py-3 reveal">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+    {# ---------- Details ---------- #}
+    <div class="lg:col-span-5 space-y-8 reveal">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Department</p>
+        <p class="text-navy">{{ profile.department|default:"—" }}</p>
+        <p class="text-ink/60 text-sm">{{ profile.university|default:"" }}</p>
+      </div>
+
+      {% if contact_info.office_location %}
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Office</p>
+          <p class="text-navy">{{ contact_info.office_location }}</p>
+        </div>
+      {% endif %}
+
+      {% if contact_info.email %}
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Email</p>
+          <a href="mailto:{{ contact_info.email }}" class="text-navy link-underline">{{ contact_info.email }}</a>
+        </div>
+      {% endif %}
+
+      {% if contact_info.phone %}
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Phone</p>
+          <p class="text-navy">{{ contact_info.phone }}</p>
+        </div>
+      {% endif %}
+
+      {% if contact_info.office_hours %}
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Office Hours</p>
+          <p class="text-navy">{{ contact_info.office_hours }}</p>
+        </div>
+      {% endif %}
+
+      {% if profile.social_links %}
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">Connect</p>
+          <div class="flex gap-4">
+            {% for link in profile.social_links.all %}
+              <a href="{{ link.url }}" target="_blank" rel="noopener" class="text-sm text-navy link-underline">{{ link.label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if contact_info.map_embed_url %}
+        <div class="rounded-xl overflow-hidden border border-navy/10 aspect-video">
+          <iframe
+            src="{{ contact_info.map_embed_url }}"
+            class="w-full h-full border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Office location map"
+          ></iframe>
+        </div>
+      {% else %}
+        <div class="rounded-xl border border-navy/10 aspect-video bg-navy/5 flex items-center justify-center text-navy/30">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+
+    {# ---------- Contact Form ---------- #}
+    <div class="lg:col-span-7 reveal">
+      {% include 'contact/partials/contact_form.html' %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

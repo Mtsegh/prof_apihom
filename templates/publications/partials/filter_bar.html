@@ -1,0 +1,75 @@
+{# Usage: {% include 'publications/partials/filter_bar.html' with query=query selected_type=selected_type selected_year_from=selected_year_from selected_year_to=selected_year_to min_year=min_year max_year=max_year publication_types=publication_types %} #}
+<form
+  method="get"
+  action="{% url 'publications:publication_list' %}"
+  x-data
+  class="bg-white border border-navy/10 rounded-xl p-5 flex flex-col sm:flex-row flex-wrap gap-4 items-stretch sm:items-end"
+>
+  <div class="flex-1 min-w-[200px]">
+    <label for="pub-search" class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">
+      Search
+    </label>
+    <input
+      id="pub-search"
+      type="search"
+      name="q"
+      value="{{ query }}"
+      placeholder="Title, author, or journal…"
+      class="w-full border border-navy/20 rounded-md px-3 py-2 text-sm focus:border-emerald"
+    >
+  </div>
+
+  <div class="sm:w-48">
+    <label for="pub-type" class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">
+      Type
+    </label>
+    <select id="pub-type" name="type" @change="$el.form.submit()" class="w-full border border-navy/20 rounded-md px-3 py-2 text-sm focus:border-emerald bg-white">
+      <option value="">All Types</option>
+      {% for value, label in publication_types %}
+        <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="sm:w-32">
+    <label for="pub-year-from" class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">
+      From Year
+    </label>
+    <input
+      id="pub-year-from"
+      type="number"
+      name="year_from"
+      value="{{ selected_year_from }}"
+      placeholder="{{ min_year|default:'1990' }}"
+      min="{{ min_year }}"
+      max="{{ max_year }}"
+      class="w-full border border-navy/20 rounded-md px-3 py-2 text-sm focus:border-emerald"
+    >
+  </div>
+
+  <div class="sm:w-32">
+    <label for="pub-year-to" class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">
+      To Year
+    </label>
+    <input
+      id="pub-year-to"
+      type="number"
+      name="year_to"
+      value="{{ selected_year_to }}"
+      placeholder="{{ max_year|default:'2026' }}"
+      min="{{ min_year }}"
+      max="{{ max_year }}"
+      class="w-full border border-navy/20 rounded-md px-3 py-2 text-sm focus:border-emerald"
+    >
+  </div>
+
+  <button type="submit" class="bg-navy text-white text-sm font-medium px-5 py-2 rounded-md hover-elevate">
+    Filter
+  </button>
+
+  {% if query or selected_type or selected_year_from or selected_year_to %}
+    <a href="{% url 'publications:publication_list' %}" class="text-sm font-medium text-ink/50 hover:text-emerald px-2 py-2 whitespace-nowrap">
+      Clear
+    </a>
+  {% endif %}
+</form>

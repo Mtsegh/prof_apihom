@@ -1,0 +1,12 @@
+{# Usage: {% include 'partials/cta.html' with heading="Interested in collaborating?" subtext="..." button_text="Get in Touch" button_url=contact_url %} #}
+<section class="bg-linear-to-br from-emerald/[0.06] to-gold/[0.08] border border-navy/10 shadow-sm rounded-2xl mx-6 lg:mx-auto max-w-6xl px-8 py-16 text-center reveal">
+  <h2 class="font-heading text-2xl sm:text-3xl text-navy">{{ heading }}</h2>
+  {% if subtext %}
+    <p class="mt-3 text-ink/60 max-w-xl mx-auto">{{ subtext }}</p>
+  {% endif %}
+  {% if button_url %}
+    <a href="{{ button_url }}" class="inline-block mt-8 bg-gold text-navy-dark font-medium px-6 py-3 rounded-md hover-elevate btn-hover">
+      {{ button_text|default:"Learn More" }}
+    </a>
+  {% endif %}
+</section>

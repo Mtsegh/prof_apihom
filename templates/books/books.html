@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Books — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Published books and monographs by {{ profile.full_name|default:"Prof. A. P. Ihom" }} in materials and metallurgical engineering.{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 py-20">
+
+  {% include 'partials/section_heading.html' with eyebrow="Publications" title="Books" description="Professional and academic titles authored over three decades of research and practice." %}
+
+  {% if books %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger">
+      {% for book in books %}
+        {% include 'books/partials/book_card.html' with book=book %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="No books listed yet" message="Published titles will appear here as they're added." %}
+  {% endif %}
+
+</section>
+{% endblock %}

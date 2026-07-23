@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}{{ profile.full_name|default:"Prof. A. P. Ihom" }} — Materials & Metallurgical Engineering{%endblock %}
+{% block meta_description %}
+{{ profile.short_bio|default:"Academic homepage of Prof. A. P. Ihom, researcher and professor of materials and metallurgical engineering."|truncatewords:30 }}
+{% endblock %}
+
+{% block content %}
+{% url 'contact:contact' as contact_url %}
+
+{% include 'home/partials/hero.html' %}
+
+{# ---------- Statistics ---------- #}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 -mt-16 relative z-10 reveal-stagger">
+  {% if statistics %}
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+    {% for stat in statistics %}
+    {% include 'home/partials/statistic_card.html' with stat=stat %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+{# ---------- Featured Books ---------- #}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+  {% include 'partials/section_heading.html' with eyebrow="Publications" title="Featured Books" description="A selection of published works in materials and metallurgical engineering." %}
+
+  {% if featured_books %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger">
+    {% for book in featured_books %}
+    {% include 'books/partials/book_card.html' with book=book %}
+    {% endfor %}
+  </div>
+  <div class="mt-10 text-center">
+    <a href="{% url 'books:book_list' %}" class="text-sm font-medium text-emerald link-underline">View all books
+      &rarr;</a>
+  </div>
+  {% else %}
+  {% include 'partials/empty_state.html' with title="No featured books yet" message="Check back soon for published titles." %}
+  {% endif %}
+</section>
+
+{# ---------- Recent Publications ---------- #}
+<section class="bg-white py-24">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Research Output" title="Recent Publications" description="Peer-reviewed journal articles and conference proceedings." %}
+
+    {% if recent_publications %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-stagger">
+      {% for publication in recent_publications %}
+      {% include 'publications/partials/publication_card.html' with publication=publication %}
+      {% endfor %}
+    </div>
+    <div class="mt-10 text-center">
+      <a href="{% url 'publications:publication_list' %}" class="text-sm font-medium text-emerald link-underline">View
+        all publications &rarr;</a>
+    </div>
+    {% else %}
+    {% include 'partials/empty_state.html' with title="No publications listed yet" message="Recent research output will appear here." %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Research Interests ---------- #}
+<section class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+  {% include 'partials/section_heading.html' with eyebrow="Research" title="Research Interests" center=True %}
+
+  {% if research_interests %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-stagger">
+    {% for interest in research_interests %}
+    <div class="border border-navy/10 rounded-xl p-6 hover-elevate reveal">
+      <p class="font-heading text-lg text-navy">{{ interest.title }}</p>
+      {% if interest.short_description %}
+      <p class="mt-2 text-sm text-ink/70 leading-relaxed">{{ interest.short_description }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  {% include 'partials/empty_state.html' with title="Research interests coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Achievements Preview ---------- #}
+<section class="bg-gold-light/10 py-24">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with eyebrow="Recognition" title="Achievements & Honors" %}
+    {% if achievements_preview %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-stagger">
+      {% for achievement in achievements_preview %}
+      {% include 'achievements/partials/achievement_card.html' with achievement=achievement %}
+      {% endfor %}
+    </div>
+    <div class="mt-10 text-center">
+      <a href="{% url 'achievements:achievement_list' %}"
+        class="text-sm font-medium text-emerald link-underline">View all achievements &rarr;</a>
+    </div>
+    {% else %}
+    {% include 'partials/empty_state.html' with title="Achievements coming soon" %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- CTA ---------- #}
+<div class="py-24">
+  {% include 'partials/cta.html' with heading="Interested in collaborating or supervising research?" subtext="Reach out to discuss projects, publications, or speaking engagements." button_text="Get in Touch" button_url=contact_url %}
+</div>
+
+{% endblock %}

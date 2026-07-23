@@ -1,0 +1,31 @@
+<form method="post" action="{% url 'contact:contact_submit' %}" class="bg-white border border-navy/10 rounded-xl p-8 space-y-6">
+  {% csrf_token %}
+
+  <div>
+    <label for="contact-name" class="block text-sm font-medium text-navy mb-1.5">Name</label>
+    <input id="contact-name" name="name" type="text" required
+      class="w-full border border-navy/20 rounded-md px-3 py-2.5 text-sm focus:border-emerald">
+  </div>
+
+  <div>
+    <label for="contact-email" class="block text-sm font-medium text-navy mb-1.5">Email</label>
+    <input id="contact-email" name="email" type="email" required
+      class="w-full border border-navy/20 rounded-md px-3 py-2.5 text-sm focus:border-emerald">
+  </div>
+
+  <div>
+    <label for="contact-subject" class="block text-sm font-medium text-navy mb-1.5">Subject</label>
+    <input id="contact-subject" name="subject" type="text"
+      class="w-full border border-navy/20 rounded-md px-3 py-2.5 text-sm focus:border-emerald">
+  </div>
+
+  <div>
+    <label for="contact-message" class="block text-sm font-medium text-navy mb-1.5">Message</label>
+    <textarea id="contact-message" name="message" rows="5" required
+      class="w-full border border-navy/20 rounded-md px-3 py-2.5 text-sm focus:border-emerald"></textarea>
+  </div>
+
+  <button type="submit" class="w-full sm:w-auto bg-gold text-navy-dark font-medium px-8 py-3 rounded-md hover-elevate">
+    Send Message
+  </button>
+</form>

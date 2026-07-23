@@ -1,0 +1,23 @@
+{# Usage: {% include 'research/partials/resource_card.html' with resource=resource %} #}
+<article id="resource-{{ resource.pk }}" class="border border-navy/10 rounded-xl bg-white p-6 hover-elevate reveal flex flex-col scroll-mt-24">
+  {% if resource.semester %}
+    <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">{{ resource.semester }}</p>
+  {% endif %}
+
+  <h4 class="font-heading text-lg text-navy leading-snug">{{ resource.title }}</h4>
+
+  {% if resource.description %}
+    <p class="mt-2 text-sm text-ink/70 leading-relaxed">{{ resource.description|truncatewords:20 }}</p>
+  {% endif %}
+
+  <div class="mt-5 pt-5 border-t border-navy/10 flex items-center justify-between mt-auto">
+    {% if resource.file %}
+      <span class="text-xs text-ink/40">{{ resource.file.size|filesizeformat }}</span>
+      <a href="{{ resource.file.url }}" class="text-sm font-medium bg-gold text-navy-dark px-4 py-2 rounded-md hover-elevate">
+        Download
+      </a>
+    {% else %}
+      <span class="text-xs text-ink/30">File not yet available</span>
+    {% endif %}
+  </div>
+</article>

@@ -1,0 +1,6 @@
+{# Usage: {% include 'achievements/partials/achievement_card.html' with achievement=achievement %} #}
+<div class="bg-white border border-navy/10 rounded-xl p-5 hover-elevate reveal">
+  <p class="text-xs font-semibold uppercase tracking-wide text-emerald mb-2">{{ achievement.get_category_display }}</p>
+  <p class="font-heading text-base text-navy leading-snug">{{ achievement.title }}</p>
+  <p class="mt-2 text-xs text-ink/40">{{ achievement.date|date:"Y" }}</p>
+</div>

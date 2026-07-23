@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block meta_title %}{{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Academic profile of {{ profile.full_name|default:"Prof. A. P. Ihom" }} — research, publications, and teaching in materials and metallurgical engineering.{% endblock %}">
+  <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+
+  {% block og_tags %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ profile.short_bio|default:"" }}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  {% block og_image %}<meta property="og:image" content="">{% endblock %}
+  {% endblock %}
+
+  {% block twitter_tags %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ self.og_title }}">
+  <meta name="twitter:description" content="{{ self.og_description }}">
+  {% endblock %}
+
+  {% block structured_data %}{% endblock %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0f1f3d',
+            'navy-dark': '#0a1730',
+            emerald: '#0f5c52',
+            gold: '#b08d57',
+            'gold-light': '#d9c39a',
+            offwhite: '#faf9f6',
+            ink: '#1c1c1c',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+
+  <script defer src="{% static 'js/search.js' %}"></script>
+  <script defer src="{% static 'js/animations.js' %}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="font-body text-ink bg-offwhite antialiased">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-navy focus:text-white focus:px-4 focus:py-2 focus:rounded">
+    Skip to content
+  </a>
+
+  {% include 'partials/navbar.html' %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

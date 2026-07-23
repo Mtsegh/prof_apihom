@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}About — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}{{ about_content.full_bio|default:profile.short_bio|default:""|truncatewords:30 }}{% endblock %}
+
+{% block content %}
+
+{# ---------- Biography ---------- #}
+<section class="mx-auto max-w-3xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with eyebrow="Biography" title="About" center=True %}
+  {% if about_content.full_bio %}
+    <div class="prose-academic text-base text-ink/80 leading-relaxed space-y-4 reveal">
+      {{ about_content.full_bio|linebreaks }}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="Biography coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Academic Journey ---------- #}
+{% if about_content.academic_journey %}
+<section class="bg-white py-16">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 reveal">
+    {% include 'partials/section_heading.html' with eyebrow="The Path" title="Academic Journey" %}
+    <p class="text-base text-ink/70 leading-relaxed">{{ about_content.academic_journey }}</p>
+  </div>
+</section>
+{% endif %}
+
+{# ---------- Education ---------- #}
+<section class="mx-auto max-w-4xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with title="Education" %}
+  {% if education %}
+    <div class="space-y-6 reveal-stagger">
+      {% for entry in education %}
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 border-b border-navy/10 pb-6 reveal">
+          <span class="text-sm text-emerald font-medium sm:w-32 shrink-0">
+            {% if entry.start_year %}{{ entry.start_year }}–{% endif %}{{ entry.end_year }}
+          </span>
+          <div>
+            <p class="font-heading text-lg text-navy">{{ entry.degree }}</p>
+            <p class="text-sm text-ink/60">{{ entry.institution }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="Education history coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Teaching Philosophy ---------- #}
+{% if about_content.teaching_philosophy %}
+<section class="bg-navy py-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8 text-center reveal">
+    {% include 'partials/section_heading.html' with eyebrow="In the Classroom" title="Teaching Philosophy" center=True %}
+    <p class="text-offwhite/80 leading-relaxed italic">&ldquo;{{ about_content.teaching_philosophy }}&rdquo;</p>
+  </div>
+</section>
+{% endif %}
+
+{# ---------- Research Interests ---------- #}
+<section class="mx-auto max-w-6xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with eyebrow="Research" title="Research Interests" %}
+  {% if research_interests %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for interest in research_interests %}
+        {% include 'partials/research_interest_card.html' with interest=interest %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="Research interests coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Professional Memberships ---------- #}
+<section class="bg-white py-20">
+  <div class="mx-auto max-w-3xl px-6 lg:px-8">
+    {% include 'partials/section_heading.html' with title="Professional Memberships" %}
+    {% if memberships %}
+      <ul class="space-y-4 reveal-stagger">
+        {% for membership in memberships %}
+          <li class="flex items-center justify-between border-b border-navy/10 pb-4 reveal">
+            <div>
+              <p class="font-medium text-navy">{{ membership.organization }}</p>
+              {% if membership.role %}<p class="text-sm text-ink/50">{{ membership.role }}</p>{% endif %}
+            </div>
+            {% if membership.year_joined %}<span class="text-sm text-ink/40">Since {{ membership.year_joined }}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="Membership details coming soon" %}
+    {% endif %}
+  </div>
+</section>
+
+{# ---------- Timeline of Career ---------- #}
+<section class="mx-auto max-w-3xl px-6 lg:px-8 py-20">
+  {% include 'partials/section_heading.html' with eyebrow="Career" title="Timeline of Career" %}
+  {% if career_milestones %}
+    <div>
+      {% for milestone in career_milestones %}
+        {% include 'partials/timeline_item.html' with date=milestone.start_year|stringformat:"s"|add:" – "|add:milestone.end_year|default:"Present"|stringformat:"s" title=milestone.title subtitle=milestone.organization description=milestone.description is_last=forloop.last %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="Career history coming soon" %}
+  {% endif %}
+</section>
+
+{# ---------- Skills ---------- #}
+<section class="bg-white py-20">
+  <div class="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+    {% include 'partials/section_heading.html' with title="Skills & Expertise" center=True %}
+    {% if skills %}
+      <div class="flex flex-wrap justify-center gap-3 reveal-stagger">
+        {% for skill in skills %}
+          <span class="text-sm font-medium bg-emerald/10 text-emerald px-4 py-2 rounded-full reveal">
+            {{ skill.name }}
+          </span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/empty_state.html' with title="Skills coming soon" %}
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

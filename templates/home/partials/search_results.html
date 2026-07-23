@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Search{% if query %} — {{ query }}{% endif %} — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Search results across books, publications, research projects, and teaching resources.{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-6 lg:px-8 py-20">
+
+  <div class="mb-12">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">Search</p>
+    <h1 class="font-heading text-3xl sm:text-4xl text-navy">
+      {% if query %}Results for &ldquo;{{ query }}&rdquo;{% else %}Search{% endif %}
+    </h1>
+    {% if query and not query_too_short %}
+      <p class="mt-2 text-sm text-ink/50">{{ total_results }} result{{ total_results|pluralize }} found</p>
+    {% endif %}
+  </div>
+
+  {% if not query %}
+    <p class="text-ink/50">Use the search icon in the navigation bar to search books, publications, research projects, and teaching resources.</p>
+
+  {% elif query_too_short %}
+    <p class="text-ink/50">Enter at least 2 characters to search.</p>
+
+  {% elif total_results == 0 %}
+    {% include 'partials/empty_state.html' with title="No results found" message="Try a different search term." %}
+
+  {% else %}
+
+    {% if books %}
+      <div class="mb-16">
+        <h2 class="font-heading text-xl text-navy border-b border-navy/10 pb-3 mb-6">Books ({{ books|length }})</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {% for book in books %}{% include 'books/partials/book_card.html' with book=book %}{% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if publications %}
+      <div class="mb-16">
+        <h2 class="font-heading text-xl text-navy border-b border-navy/10 pb-3 mb-6">Publications ({{ publications|length }})</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for publication in publications %}{% include 'publications/partials/publication_card.html' with publication=publication %}{% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if research_projects %}
+      <div class="mb-16">
+        <h2 class="font-heading text-xl text-navy border-b border-navy/10 pb-3 mb-6">Research Projects ({{ research_projects|length }})</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for project in research_projects %}{% include 'research/partials/research_card.html' with project=project %}{% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if teaching_resources %}
+      <div class="mb-16">
+        <h2 class="font-heading text-xl text-navy border-b border-navy/10 pb-3 mb-6">Teaching Resources ({{ teaching_resources|length }})</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {% for resource in teaching_resources %}{% include 'research/partials/resource_card.html' with resource=resource %}{% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  {% endif %}
+
+</section>
+{% endblock %}

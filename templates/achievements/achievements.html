@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Achievements — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Awards, recognitions, invited talks, and professional honors earned by {{ profile.full_name|default:"Prof. A. P. Ihom" }}.{% endblock %}
+
+{% block content %}
+<section
+  x-data="{ selected: 'all' }"
+  class="mx-auto max-w-5xl px-6 lg:px-8 py-20"
+>
+  {% include 'partials/section_heading.html' with eyebrow="Recognition" title="Achievements & Honors" description="A record of awards, fellowships, invited talks, and professional distinctions." %}
+
+  {% if achievements %}
+    <div class="flex flex-wrap gap-2 mb-12" role="tablist" aria-label="Filter achievements by category">
+      <button
+        @click="selected = 'all'"
+        :class="selected === 'all' ? 'bg-navy text-white' : 'bg-white text-navy border border-navy/15'"
+        class="text-sm font-medium px-4 py-2 rounded-full transition-colors"
+        role="tab"
+        :aria-selected="(selected === 'all').toString()"
+      >
+        All
+      </button>
+      {% for value, label in categories %}
+        <button
+          @click="selected = '{{ value }}'"
+          :class="selected === '{{ value }}' ? 'bg-navy text-white' : 'bg-white text-navy border border-navy/15'"
+          class="text-sm font-medium px-4 py-2 rounded-full transition-colors"
+          role="tab"
+          :aria-selected="(selected === '{{ value }}').toString()"
+        >
+          {{ label }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <div>
+      {% for achievement in achievements %}
+        <div x-show="selected === 'all' || selected === '{{ achievement.category }}'" x-transition>
+          {% include 'partials/timeline_item.html' with date=achievement.date|date:"Y" title=achievement.title subtitle=achievement.issuing_organization description=achievement.description is_last=forloop.last %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="No achievements listed yet" message="Awards and honors will appear here as they're added." %}
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{# Usage: {% include 'partials/pagination.html' with page_obj=page_obj querystring=querystring %} #}
+{% if page_obj.has_other_pages %}
+<nav aria-label="Pagination" class="mt-12 flex justify-center items-center gap-2">
+  {% if page_obj.has_previous %}
+    <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}"
+       class="px-3 py-2 text-sm rounded-md border border-navy/15 text-navy hover:border-emerald">
+      Previous
+    </a>
+  {% endif %}
+
+  <span class="px-3 py-2 text-sm text-ink/60">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+  </span>
+
+  {% if page_obj.has_next %}
+    <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}"
+       class="px-3 py-2 text-sm rounded-md border border-navy/15 text-navy hover:border-emerald">
+      Next
+    </a>
+  {% endif %}
+</nav>
+{% endif %}

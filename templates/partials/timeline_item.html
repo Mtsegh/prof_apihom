@@ -1,0 +1,12 @@
+{# Usage: {% include 'partials/timeline_item.html' with date="2018" title="Full Professor" subtitle="University of Uyo" is_last=False %} #}
+<div class="relative pl-8 pb-10 {% if not is_last %}border-l border-navy/15{% endif %}">
+  <span class="absolute -left-[7px] top-1 w-3.5 h-3.5 rounded-full bg-gold border-2 border-offwhite"></span>
+  <p class="text-xs font-semibold uppercase tracking-wide text-emerald">{{ date }}</p>
+  <p class="mt-1 font-heading text-lg text-navy">{{ title }}</p>
+  {% if subtitle %}
+    <p class="mt-1 text-sm text-ink/60">{{ subtitle }}</p>
+  {% endif %}
+  {% if description %}
+    <p class="mt-2 text-sm text-ink/70 leading-relaxed">{{ description }}</p>
+  {% endif %}
+</div>

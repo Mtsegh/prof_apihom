@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Prof. Ihom — Academic Site Design System
+   Static tokens & structural utilities only. Everything with a
+   transition, keyframe, or hover-triggered motion lives in
+   animations.css instead — see that file for hover-elevate, btn-hover,
+   link-underline, the scroll-reveal system, and the ambient glow.
+   ========================================================================== */
+
+/* ---------- Accessibility ---------- */
+
+:focus-visible {
+  outline: 2px solid #b08d57;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Blueprint grid texture ---------- */
+/* A faint drafting-paper grid behind the hero text — a quiet nod to
+   engineering drawings, grounded in the subject of the site, rather
+   than a generic gradient blob. Pure CSS, no image request. Nothing
+   here animates, which is why it lives in this file and not the
+   motion one. */
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(15, 31, 61, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 31, 61, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}

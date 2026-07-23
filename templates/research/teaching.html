@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block meta_title %}Teaching Resources — {{ profile.full_name|default:"Prof. A. P. Ihom" }}{% endblock %}
+{% block meta_description %}Downloadable course materials and teaching resources from {{ profile.full_name|default:"Prof. A. P. Ihom" }}.{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-6 lg:px-8 py-20">
+
+  {% include 'partials/section_heading.html' with eyebrow="Teaching" title="Teaching Resources" description="Course materials, lecture notes, and downloadable resources organized by course." %}
+
+  {% if resources %}
+    {% regroup resources by course as course_list %}
+    <div class="space-y-14">
+      {% for course in course_list %}
+        <div>
+          <h3 class="font-heading text-xl text-navy border-b border-navy/10 pb-3 mb-6">{{ course.grouper }}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 reveal-stagger">
+            {% for resource in course.list %}
+              {% include 'research/partials/resource_card.html' with resource=resource %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include 'partials/empty_state.html' with title="No teaching resources uploaded yet" message="Course materials will appear here as they're added." %}
+  {% endif %}
+
+</section>
+{% endblock %}

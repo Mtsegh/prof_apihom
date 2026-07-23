@@ -1,0 +1,5 @@
+{# Usage: {% include 'home/partials/statistic_card.html' with stat=stat %} #}
+<div class="bg-white rounded-xl border border-navy/10 shadow-sm px-4 py-6 text-center hover-elevate reveal">
+  <p class="font-heading text-3xl sm:text-4xl text-navy">{{ stat.value }}{{ stat.suffix }}</p>
+  <p class="mt-1 text-xs sm:text-sm uppercase tracking-wide text-ink/60">{{ stat.label }}</p>
+</div>

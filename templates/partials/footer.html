@@ -1,0 +1,57 @@
+{% url 'home:home' as home_url %}
+{% url 'about:about' as about_url %}
+{% url 'books:book_list' as books_url %}
+{% url 'publications:publication_list' as publications_url %}
+{% url 'research:research_list' as research_url %}
+{% url 'achievements:achievement_list' as achievements_url %}
+{% url 'contact:contact' as contact_url %}
+
+<footer class="bg-navy text-offwhite mt-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+
+    <div>
+      <p class="font-heading text-lg mb-3">{{ profile.full_name|default:"Prof. A. P. Ihom" }}</p>
+      <p class="text-sm text-offwhite/70 leading-relaxed">
+        {{ profile.title|default:"Professor of Materials and Metallurgical Engineering" }}<br>
+        {{ profile.department|default:"" }}{% if profile.department %}, {% endif %}{{ profile.university|default:"" }}
+      </p>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wide text-gold mb-4">Quick Links</p>
+      <ul class="space-y-2 text-sm text-offwhite/80">
+        <li><a href="{{ home_url }}" class="hover:text-gold-light">Home</a></li>
+        <li><a href="{{ about_url }}" class="hover:text-gold-light">About</a></li>
+        <li><a href="{{ books_url }}" class="hover:text-gold-light">Books</a></li>
+        <li><a href="{{ publications_url }}" class="hover:text-gold-light">Publications</a></li>
+        <li><a href="{{ research_url }}" class="hover:text-gold-light">Research</a></li>
+        <li><a href="{{ achievements_url }}" class="hover:text-gold-light">Achievements</a></li>
+        <li><a href="{{ contact_url }}" class="hover:text-gold-light">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wide text-gold mb-4">Connect</p>
+      {% if profile.social_links.all %}
+      <ul class="space-y-2 text-sm text-offwhite/80">
+        {% for link in profile.social_links.all %}
+        <li><a href="{{ link.url }}" class="hover:text-gold-light" rel="noopener" target="_blank">{{ link.label }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-offwhite/50">Social links coming soon.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="border-t border-offwhite/10">
+    <div
+      class="mx-auto max-w-7xl px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-offwhite/60">
+      <p>&copy; {% now "Y" %} {{ profile.full_name|default:"Prof. A. P. Ihom" }}. All rights reserved.</p>
+      {% if profile.quote %}
+      <p class="italic text-offwhite/50 text-center md:text-right">&ldquo;{{ profile.quote }}&rdquo;</p>
+      {% endif %}
+    </div>
+  </div>
+</footer>

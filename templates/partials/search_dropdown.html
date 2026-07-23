@@ -1,0 +1,41 @@
+{% if not query %}
+  <p class="text-sm text-ink/40 px-3 py-6 text-center">
+    Start typing to search books, publications, research, and teaching resources.
+  </p>
+
+{% elif query_too_short %}
+  <p class="text-sm text-ink/40 px-3 py-6 text-center">Keep typing — at least 2 characters needed.</p>
+
+{% elif total_results == 0 %}
+  <p class="text-sm text-ink/40 px-3 py-6 text-center">No results for &ldquo;{{ query }}&rdquo;.</p>
+
+{% else %}
+  <div class="divide-y divide-navy/10">
+    {% for group in groups %}
+      {% if group.items %}
+        <div class="py-3">
+          <p class="px-3 text-xs font-semibold uppercase tracking-wide text-emerald mb-2">{{ group.label }}</p>
+          <ul>
+            {% for item in group.items %}
+              <li>
+                <a href="{{ item.url }}" class="block px-3 py-2 rounded-md hover:bg-navy/5 transition-colors">
+                  <span class="block text-sm font-medium text-navy leading-snug">{{ item.title }}</span>
+                  {% if item.meta %}<span class="block text-xs text-ink/50 mt-0.5">{{ item.meta }}</span>{% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+          {% if group.count > group.items|length %}
+            <a href="{{ search_results_url }}" class="block px-3 pt-1 text-xs font-medium text-emerald link-underline">
+              View all {{ group.count }} in {{ group.label }} &rarr;
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <a href="{{ search_results_url }}" class="block mt-2 pt-3 border-t border-navy/10 text-center text-sm font-medium text-navy hover:text-emerald">
+    View all {{ total_results }} results &rarr;
+  </a>
+{% endif %}

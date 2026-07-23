@@ -1,0 +1,10 @@
+{# Usage: {% include 'partials/section_heading.html' with eyebrow="Research" title="Current Focus" description="..." center=True %} #}
+<div class="max-w-2xl {% if center %}mx-auto text-center{% endif %} mb-12 reveal">
+  {% if eyebrow %}
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">{{ eyebrow }}</p>
+  {% endif %}
+  <h2 class="font-heading text-3xl sm:text-4xl text-navy leading-tight">{{ title }}</h2>
+  {% if description %}
+    <p class="mt-4 text-base text-ink/70 leading-relaxed">{{ description }}</p>
+  {% endif %}
+</div>

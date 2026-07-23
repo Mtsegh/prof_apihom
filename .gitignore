@@ -1,0 +1,14 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+tailwindcss
+# Virtual environments
+.venv
+
+db.sqlite3
+models_reference.py
+admin_reference.py

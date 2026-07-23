@@ -1,0 +1,7 @@
+{# Usage: {% include 'partials/research_interest_card.html' with interest=interest %} #}
+<div class="border border-navy/10 rounded-xl p-6 hover-elevate reveal bg-white">
+  <p class="font-heading text-lg text-navy">{{ interest.title }}</p>
+  {% if interest.short_description %}
+    <p class="mt-2 text-sm text-ink/70 leading-relaxed">{{ interest.short_description }}</p>
+  {% endif %}
+</div>
